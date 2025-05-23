@@ -4,7 +4,7 @@
     "CardbackID": "cardbackshadowscale",
     "CardbackName": "Default",
     "CardbackOrder": 1000,
-    "CardbackSprite": "cardbackshadowscale",
+    "CardbackSprite": "CardBackWarrior",
     "CardbackSubclass": "shadowscale",
     "Locked": false,
     "ObeliskLevel": 0,

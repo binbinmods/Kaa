@@ -69,34 +69,25 @@ namespace Kaa
 
             if (_trait == trait0)
             {
-                // Shield on you increases All Damage and Healing Done by 0.2 per charge
-                // Done in GACM
+                // Gain 1 evade at combat start 
+                _character.SetAuraTrait(_character, "evade", 1);
             }
 
 
             else if (_trait == trait2a)
             {
                 // trait2a
-                //When you play a Mind Spell, add a randomly upgraded Prayer of Protection with cost 0 and Vanish to your hand. (1 time/turn)",
+                // Evasion +1. 
+                // Evasion on you stacks and increases All Damage by 1 per charge. 
+                // When you play a Defense card, gain 1 Energy and Draw 1. (2 times/turn)
                 string traitName = traitData.TraitName;
                 string traitId = _trait;
 
-                if (CanIncrementTraitActivations(traitId) && _castedCard.HasCardType(Enums.CardType.Mind_Spell))// && MatchManager.Instance.energyJustWastedByHero > 0)
+                if (CanIncrementTraitActivations(traitId) && _castedCard.HasCardType(Enums.CardType.Defense))// && MatchManager.Instance.energyJustWastedByHero > 0)
                 {
-
                     LogDebug($"Handling Trait {traitId}: {traitName}");
-                    if (!((UnityEngine.Object)_character.HeroData != (UnityEngine.Object)null) || MatchManager.Instance.CountHeroHand() == 10)
-                        return;
-                    string str = "prayerofprotection";
-                    int randomIntRange = MatchManager.Instance.GetRandomIntRange(0, 100, "trait");
-                    string cardInDictionary = MatchManager.Instance.CreateCardInDictionary(randomIntRange >= 45 ? (randomIntRange >= 90 ? str + "rare" : str + "b") : str + "a");
-                    CardData cardData = MatchManager.Instance.GetCardData(cardInDictionary);
-                    cardData.Vanish = true;
-                    cardData.EnergyReductionToZeroPermanent = true;
-                    MatchManager.Instance.GenerateNewCard(1, cardInDictionary, false, Enums.CardPlace.Hand);
-                    // _character.HeroItem.ScrollCombatText(Texts.Instance.GetText("traits_Chastise") + Functions.TextChargesLeft(MatchManager.Instance.activatedTraits[nameof(chastise)], traitData.TimesPerTurn), Enums.CombatScrollEffectType.Trait);
-                    MatchManager.Instance.ItemTraitActivated();
-                    MatchManager.Instance.CreateLogCardModification(cardData.InternalId, MatchManager.Instance.GetHero(_character.HeroIndex));
+                    _character?.ModifyEnergy(1);
+                    DrawCards(1);
                     IncrementTraitActivations(traitId);
                 }
             }
@@ -105,50 +96,31 @@ namespace Kaa
 
             else if (_trait == trait2b)
             {
-                // trait 2b:  
-                // When you play a Healing Spell that costs Energy, refund 1 and gain 3 Shield. (3 times/turn)",
+                // trait2b:
+                // Stealth on heroes increases All Damage by an additional 15% per charge and All Resistances by an additional 5% per charge.",
                 string traitName = traitData.TraitName;
                 string traitId = _trait;
 
-                if (CanIncrementTraitActivations(traitId) && _castedCard.HasCardType(Enums.CardType.Healing_Spell) && MatchManager.Instance.energyJustWastedByHero > 0)
-                {
-                    LogDebug($"Handling Trait {traitId}: {traitName}");
-                    _character?.ModifyEnergy(1);
-                    _character?.SetAuraTrait(_character, "shield", 3);
-                    IncrementTraitActivations(traitId);
-                }
             }
 
             else if (_trait == trait4a)
             {
-                // trait4a:
-                // When you play a Cold Spell, suffer 2 Chill. When you play a Fire Spell, gain 2 Fury.
+                // trait 4a;
+                // Evasion on you can't be purged unless specified. 
+                // Stealth grants 25% additional damage per charge.",
                 string traitName = traitData.TraitName;
                 string traitId = _trait;
 
                 LogDebug($"Handling Trait {traitId}: {traitName}");
-                if (_castedCard.HasCardType(Enums.CardType.Cold_Spell))
-                {
-                    _character.SetAuraTrait(_character, "chill", 2);
-                }
-                if (_castedCard.HasCardType(Enums.CardType.Fire_Spell))
-                {
-                    _character.SetAuraTrait(_character, "fury", 2);
-                }
             }
 
             else if (_trait == trait4b)
             {
+                // trait 4b:
+                // Heroes Only lose 75% stealth charges rounding down when acting in stealth.
                 string traitName = traitData.TraitName;
                 string traitId = _trait;
                 LogDebug($"Handling Trait {traitId}: {traitName}");
-                // trait4b:
-                // When you play a Defense, gain 2 Block and apply 2 Chill to all enemies.
-                if (_castedCard.HasCardType(Enums.CardType.Defense))
-                {
-                    _character.SetAuraTrait(_character, "block", 2);
-                    ApplyAuraCurseToAll("chill", 2, AppliesTo.Monsters, _character, useCharacterMods: true);
-                }
             }
 
         }
@@ -173,116 +145,7 @@ namespace Kaa
             return true;
         }
 
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(Character), nameof(Character.HealReceivedFinal))]
-        public static void HealReceivedFinalPostfix(Character __instance, int __result, int heal, bool isIndirect = false)
-        {
-            LogDebug("HealReceivedFinalPostfix");
-            // if (infiniteProctection > 100)
-            //     return;
-            if (isDamagePreviewActive || isCalculateDamageActive)
-                return;
-            if (MatchManager.Instance == null)
-                return;
-            // if (!IsLivingHero(__instance))
-            //     return;
 
-            // string traitOfInterest = trait2a;
-            // int heal = __result;
-
-            HandleOverhealTraits(ref __instance, __result, "HealRecievedFinalPostfix");
-
-        }
-
-        [HarmonyPrefix]
-        [HarmonyPatch(typeof(Item), "DoItemData")]
-        private static void DoItemDataPrefix(
-            Item __instance,
-            Character target,
-            string itemName,
-            int auxInt,
-            CardData cardItem,
-            string itemType,
-            ItemData itemData,
-            Character character,
-            int order,
-            string castedCardId = "",
-            Enums.EventActivation theEvent = Enums.EventActivation.None)
-        {
-            if (itemData?.HealQuantity > 0)
-            {
-                List<Hero> characterList = itemData.ItemTarget switch
-                {
-                    Enums.ItemTarget.AllHero => MatchManager.Instance.GetTeamHero().ToList(),
-                    _ => []
-                };
-                for (int i = 0; i < characterList.Count; i++)
-                {
-                    Character hero = characterList[i];
-                    int heal = itemData?.HealQuantity ?? 0;
-                    HandleOverhealTraits(ref hero, heal, "DoItemDataPrefix");
-
-                }
-                if (itemData.ItemTarget == Enums.ItemTarget.SelfEnemy || itemData.ItemTarget == Enums.ItemTarget.Self || itemData.ItemTarget == Enums.ItemTarget.CurrentTarget)
-                {
-                    int heal = itemData.HealQuantity;
-                    HandleOverhealTraits(ref target, heal, "DoItemDataPrefix");
-
-                }
-            }
-            if (itemData.HealPercentQuantity > 0)
-            {
-                if (itemData.ItemTarget == Enums.ItemTarget.AllHero)
-                {
-                    for (int i = 0; i < MatchManager.Instance.GetTeamHero().Count(); i++)
-                    {
-                        Character hero = MatchManager.Instance.GetTeamHero()[i];
-                        // foreach (Character hero in MatchManager.Instance.GetTeamHero())
-                        // {
-                        int heal = Mathf.RoundToInt(itemData.HealPercentQuantity * target.GetMaxHP() * 0.01f);
-                        HandleOverhealTraits(ref hero, heal, "DoItemDataPrefix");
-                    }
-
-                }
-
-                if (itemData.ItemTarget == Enums.ItemTarget.SelfEnemy || itemData.ItemTarget == Enums.ItemTarget.Self || itemData.ItemTarget == Enums.ItemTarget.CurrentTarget)
-                {
-                    int heal = Mathf.RoundToInt(itemData.HealPercentQuantity * target.GetMaxHP() * 0.01f);
-                    HandleOverhealTraits(ref target, heal, "DoItemDataPrefix");
-
-                }
-            }
-
-            if (itemData.HealPercentQuantitySelf > 0)
-            {
-                int heal = Mathf.RoundToInt(itemData.HealPercentQuantitySelf * target.GetMaxHP() * 0.01f);
-                HandleOverhealTraits(ref target, heal, "DoItemDataPrefix");
-
-            }
-        }
-
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(Character), nameof(Character.HealAttacker))]
-        public static void HealAttackerPostfix(Character __instance, Hero theCasterHero, NPC theCasterNPC)
-        {
-            if (__instance.IsHero && theCasterHero != null || theCasterHero != null && !theCasterHero.Alive || theCasterNPC != null && !theCasterNPC.Alive)
-                return;
-            for (int index1 = 0; index1 < __instance.AuraList.Count; ++index1)
-            {
-                if (__instance.AuraList[index1] == null)
-                {
-                    continue;
-                }
-                AuraCurseData acData = __instance.AuraList[index1].ACData;
-                if ((UnityEngine.Object)acData != (UnityEngine.Object)null && acData.HealAttackerPerStack > 0)
-                {
-                    int heal = acData.HealAttackerPerStack * __instance.AuraList[index1].AuraCharges;
-                    Character hero = theCasterHero;
-                    HandleOverhealTraits(ref hero, heal, "HealAttackerPostfix");
-                }
-
-            }
-        }
 
         [HarmonyPostfix]
         [HarmonyPatch(typeof(AtOManager), "GlobalAuraCurseModificationByTraitsAndItems")]
@@ -295,81 +158,78 @@ namespace Kaa
             string traitOfInterest;
             switch (_acId)
             {
-                // trait4a:
-                // Shield on Hero increases All Damage and Healing Done by 0.2 per charge
+                // trait2a:
+                // Evasion on you stacks and increases All Damage by 1 per charge. 
 
-                case "shield":
-                    traitOfInterest = trait0;
+                // trait2b:
+                // Stealth on heroes increases All Damage by an additional 15% per charge and All Resistances by an additional 5% per charge.",
+
+                // trait 4a;
+                // Evasion on you can't be purged unless specified. 
+                // Stealth grants 25% additional damage per charge.",
+
+                // trait 4b:
+                // Heroes Only lose 75% stealth charges rounding down when acting in stealth.
+
+                case "evasion":
+                    traitOfInterest = trait2a;
                     if (IfCharacterHas(characterOfInterest, CharacterHas.Trait, traitOfInterest, AppliesTo.ThisHero))
                     {
-                        __result.AuraDamageType = Enums.DamageType.Mind;
-                        float multiplierAmount = 0.2f;  //characterOfInterest.HaveTrait(trait4a) ? 0.3f : 0.2f;
+                        __result.GainCharges = true;
+                        __result.AuraDamageType = Enums.DamageType.All;
+                        float multiplierAmount = 1.0f;  //characterOfInterest.HaveTrait(trait4a) ? 0.3f : 0.2f;
                         __result.AuraDamageIncreasedPerStack = multiplierAmount;
                         // __result.HealDoneTotal = Mathf.RoundToInt(multiplierAmount * characterOfInterest.GetAuraCharges("shield"));
                     }
-                    break;
-                case "insane":
                     traitOfInterest = trait4a;
-                    if (IfCharacterHas(characterOfInterest, CharacterHas.Trait, traitOfInterest, AppliesTo.Monsters))
+                    if (IfCharacterHas(characterOfInterest, CharacterHas.Trait, traitOfInterest, AppliesTo.ThisHero))
                     {
-                        // __result.ResistModified = Enums.DamageType.Mind;                        
-                        __result.ResistModifiedPercentagePerStack -= 1;
-                        // __result.HealDoneTotal = Mathf.RoundToInt(multiplierAmount * characterOfInterest.GetAuraCharges("shield"));
+                        __result.Removable = false;
+                    }
+                    break;
+                case "stealth":
+                    traitOfInterest = trait2b;
+                    if (IfCharacterHas(characterOfInterest, CharacterHas.Trait, traitOfInterest, AppliesTo.Heroes))
+                    {
+                        __result.ResistModified = Enums.DamageType.All;
+                        __result.ResistModifiedPercentagePerStack += 5;
+                        __result.AuraDamageType = Enums.DamageType.All;
+                        __result.AuraDamageIncreasedPercentPerStack += 15;
                     }
                     break;
             }
         }
 
-        // [HarmonyPostfix]
-        // [HarmonyPatch(typeof(Character), nameof(Character.ActivateItem))]
-        public static void ActivateItem(
-            Character __instance,
-            Enums.EventActivation theEvent,
-            Character target,
-            int auxInt,
-            string auxString,
-            CardData ___cardCasted)
+        [HarmonyPrefix]
+        [HarmonyPatch(typeof(Character), "HealAuraCurse")]
+        public static void HealAuraCursePrefix(ref Character __instance, AuraCurseData AC, ref int __state)
         {
-            string enchantId = "Shadowscalemindmaze";
-            if (theEvent == Enums.EventActivation.CastCard && IfCharacterHas(__instance, CharacterHas.Enchantment, enchantId, AppliesTo.ThisHero) && (___cardCasted?.HasCardType(Enums.CardType.Mind_Spell) ?? false))
+            LogInfo($"HealAuraCursePrefix {subclassName}");
+            string traitOfInterest = trait4b;
+            if (IsLivingHero(__instance) && __instance.HaveTrait(traitOfInterest) && AC == GetAuraCurseData("stealth"))
             {
+                __state = Mathf.FloorToInt(__instance.GetAuraCharges("stealth") * 0.25f);
+                // __instance.SetAuraTrait(null, "stealth", 1);
 
-                string id = enchantId;
-                if (__instance.HaveItem("Shadowscalemindmazea"))
-                {
-                    id = "Shadowscalemindmazea";
-                }
-                if (__instance.HaveItem("Shadowscalemindmazeb"))
-                {
-                    id = "Shadowscalemindmazeb";
-                }
-                LogDebug($"Handling Enchantment {id}");
-                CardData cardData = Globals.Instance.GetCardData(id, false);
-                if ((UnityEngine.Object)cardData == (UnityEngine.Object)null) { return; }
-                int timesActivated = 0;
-                Enums.EventActivation newEvent = Enums.EventActivation.AuraCurseSet;
-                string newAuxString = "shield";
-                MatchManager.Instance.DoItem(__instance, newEvent, cardData, id, target, auxInt, newAuxString, timesActivated);
             }
+
         }
 
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(Character), nameof(Character.HealBonus))]
-        public static void HealBonusPostfix(
-            Character __instance,
-            ref float[] __result,
-            int energyCost)
+        [HarmonyPatch(typeof(Character), "HealAuraCurse")]
+        public static void HealAuraCursePostfix(ref Character __instance, AuraCurseData AC, int __state)
         {
-            if (__instance.HaveTrait(trait0) && IsLivingHero(__instance))
+            LogInfo($"HealAuraCursePrefix {subclassName}");
+            string traitOfInterest = trait4b;
+            if (IsLivingHero(__instance) && __instance.HaveTrait(traitOfInterest) && AC == GetAuraCurseData("stealth") && __state > 0)
             {
-
-                float multiplierAmount = __instance.HaveTrait(trait4a) ? 0.3f : 0.2f;
-                int nShield = __instance.GetAuraCharges("shield");
-                LogDebug($"HealBonusPostfix for {__instance.SourceName} with {nShield} shield");
-                __result[0] += Mathf.RoundToInt(multiplierAmount * nShield);
+                // __state = __instance.GetAuraCharges("stealth");
+                __instance.SetAuraTrait(null, "stealth", __state);
             }
 
         }
+
+
 
 
         [HarmonyPrefix]
