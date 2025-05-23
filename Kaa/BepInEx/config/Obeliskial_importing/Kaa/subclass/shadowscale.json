@@ -30,7 +30,7 @@
     "HitSound": "",
     "HP": 65,
     "ID": "shadowscale",
-    "Item": "shadowscalearmorofmocking",
+    "Item": "shadowcalearmorofmockery",
     "MaxHP": [
         0,
         7,
@@ -79,7 +79,7 @@
         "sneakpeek",
         "camouflage",
         "faststrike",
-        "slash",
+        "slice",
         "cleave",
         "bladedance"
     ]

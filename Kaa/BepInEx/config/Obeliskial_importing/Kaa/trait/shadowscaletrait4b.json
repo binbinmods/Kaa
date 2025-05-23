@@ -23,7 +23,7 @@
     "DamageBonusPercentValue": 0.0,
     "DamageBonusPercentValue2": 0.0,
     "DamageBonusPercentValue3": 0.0,
-    "Description": "Stealth +1. Heroes Only lose 75% stealth charges rounding down when acting in stealth.",
+    "Description": "Stealth +1. Heroes only lose 75% stealth charges rounding down when acting in stealth.",
     "HealFlatBonus": 0,
     "HealPercentBonus": 0.0,
     "HealReceivedFlatBonus": 0,
@@ -39,5 +39,5 @@
     "TimesPerTurn": 0,
     "TraitCard": "",
     "TraitCardForAllHeroes": "",
-    "TraitName": "Superior stealth"
+    "TraitName": "Superior Stealth"
 }
