@@ -4,16 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using Obeliskial_Content;
 using UnityEngine;
-using static Salara.CustomFunctions;
-using static Salara.Plugin;
-using static Salara.DescriptionFunctions;
-using static Salara.SalaraFunctions;
+using static Kaa.CustomFunctions;
+using static Kaa.Plugin;
+using static Kaa.DescriptionFunctions;
+using static Kaa.KaaFunctions;
 using System.Text;
 using TMPro;
 using Obeliskial_Essentials;
 using System.Data.Common;
 
-namespace Salara
+namespace Kaa
 {
     [HarmonyPatch]
     internal class Traits
@@ -330,18 +330,18 @@ namespace Salara
             string auxString,
             CardData ___cardCasted)
         {
-            string enchantId = "savantmindmaze";
+            string enchantId = "Shadowscalemindmaze";
             if (theEvent == Enums.EventActivation.CastCard && IfCharacterHas(__instance, CharacterHas.Enchantment, enchantId, AppliesTo.ThisHero) && (___cardCasted?.HasCardType(Enums.CardType.Mind_Spell) ?? false))
             {
 
                 string id = enchantId;
-                if (__instance.HaveItem("savantmindmazea"))
+                if (__instance.HaveItem("Shadowscalemindmazea"))
                 {
-                    id = "savantmindmazea";
+                    id = "Shadowscalemindmazea";
                 }
-                if (__instance.HaveItem("savantmindmazeb"))
+                if (__instance.HaveItem("Shadowscalemindmazeb"))
                 {
-                    id = "savantmindmazeb";
+                    id = "Shadowscalemindmazeb";
                 }
                 LogDebug($"Handling Enchantment {id}");
                 CardData cardData = Globals.Instance.GetCardData(id, false);
@@ -417,9 +417,9 @@ namespace Salara
         //     }
         //     __state.Item1 = 0;
 
-        //     if (__instance.Enchantment.StartsWith("savantmindmaze"))
+        //     if (__instance.Enchantment.StartsWith("Shadowscalemindmaze"))
         //     {
-        //         __state.Item1 = MatchManager.Instance.ItemExecuteForThisCombat("savant", "savantmindmaze", 2, "") ? 0 : -1;
+        //         __state.Item1 = MatchManager.Instance.ItemExecuteForThisCombat("Shadowscale", "Shadowscalemindmaze", 2, "") ? 0 : -1;
         //         if(__state.Item1 == -1)
         //         {
         //             return;
@@ -427,9 +427,9 @@ namespace Salara
         //         __state.Item1 = 1;
         //         __state.Item2 = __instance.Enchantment;
         //     }
-        //     else if (__instance.Enchantment2.StartsWith("savantmindmaze"))
+        //     else if (__instance.Enchantment2.StartsWith("Shadowscalemindmaze"))
         //     {
-        //         __state.Item1 = MatchManager.Instance.ItemExecuteForThisCombat("savant", "savantmindmaze", 2, "") ? 0 : -1;
+        //         __state.Item1 = MatchManager.Instance.ItemExecuteForThisCombat("Shadowscale", "Shadowscalemindmaze", 2, "") ? 0 : -1;
         //         if(__state.Item1 == -1)
         //         {
         //             return;
@@ -437,9 +437,9 @@ namespace Salara
         //         __state.Item1 = 2;
         //         __state.Item2 = __instance.Enchantment2;
         //     }
-        //     else if (__instance.Enchantment3.StartsWith("savantmindmaze"))
+        //     else if (__instance.Enchantment3.StartsWith("Shadowscalemindmaze"))
         //     {
-        //         __state.Item1 = MatchManager.Instance.ItemExecuteForThisCombat("savant", "savantmindmaze", 2, "") ? 0 : -1;
+        //         __state.Item1 = MatchManager.Instance.ItemExecuteForThisCombat("Shadowscale", "Shadowscalemindmaze", 2, "") ? 0 : -1;
         //         if(__state.Item1 == -1)
         //         {
         //             return;
@@ -456,7 +456,7 @@ namespace Salara
         // [HarmonyPatch(typeof(Character), nameof(Character.RemoveEnchantsStartTurn))]
         // public static void RemoveEnchantsStartTurnPostfix(Character __instance, (int, string) __state)
         // {
-        //     // __state = MatchManager.Instance.ItemExecuteForThisCombat("savant", "savantmindmaze", 2, "") ? -1 : 0;
+        //     // __state = MatchManager.Instance.ItemExecuteForThisCombat("Shadowscale", "Shadowscalemindmaze", 2, "") ? -1 : 0;
         //     int itemSlot = __state.Item1;
         //     string enchantId = __state.Item2;
         //     if (itemSlot <= 0 |)

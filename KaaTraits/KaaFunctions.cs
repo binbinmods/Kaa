@@ -5,9 +5,9 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using static Obeliskial_Essentials.Essentials;
 using System;
-using static Salara.CustomFunctions;
-using static Salara.Plugin;
-using static Salara.Traits;
+using static Kaa.CustomFunctions;
+using static Kaa.Plugin;
+using static Kaa.Traits;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -15,7 +15,7 @@ using UnityEngine;
 
 
 // Make sure your namespace is the same everywhere
-namespace Salara
+namespace Kaa
 {
 
     // [HarmonyPatch] //DO NOT REMOVE/CHANGE
@@ -28,7 +28,7 @@ namespace Salara
         // public static string itemStem = $"{subclassname}";
         public static List<string> cardsWithCustomDescriptions = [];
         public static List<string> cardsToAppendDescription = [];
-        public static List<string> cardsToPrependDescription = ["Savantformulaa", "Savantformulab"];
+        public static List<string> cardsToPrependDescription = ["Shadowscaleformulaa", "Shadowscaleformulab"];
 
         public static string NumFormatItem(int num, bool plus = false, bool percent = false)
         {
@@ -316,7 +316,7 @@ namespace Salara
 
 
     }
-    public class SalaraFunctions
+    public class KaaFunctions
     {
         public static void HandleOverflowingMaliceTrait2a(ref Character __instance, int amountOverhealed, string traitOfInterest)
         {

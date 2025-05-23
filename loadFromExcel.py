@@ -6,8 +6,8 @@ import numpy as np
 import ast
 
 # Set the directory where the Excel file is located
-excel_file_name = "Salara.xlsx"
-character_name = "Salara"
+excel_file_name = "Kaa.xlsx"
+character_name = "Kaa"
 config = f"{character_name}/BepInEx/config/Obeliskial_importing/{character_name}"
 
 # This sets up the names of the directories for later.

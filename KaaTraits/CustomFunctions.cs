@@ -7,10 +7,10 @@ using Obeliskial_Essentials;
 using System.IO;
 using static UnityEngine.Mathf;
 using UnityEngine.TextCore.LowLevel;
-using static Salara.Plugin;
+using static Kaa.Plugin;
 using System.Collections.ObjectModel;
 
-namespace Salara
+namespace Kaa
 {
     public class CustomFunctions
     {

@@ -6,10 +6,10 @@ using Obeliskial_Essentials;
 using System.IO;
 using UnityEngine;
 using System;
-using static Salara.Traits;
+using static Kaa.Traits;
 using BepInEx.Configuration;
 
-namespace Salara
+namespace Kaa
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     [BepInDependency("com.stiffmeds.obeliskialessentials")]
@@ -24,10 +24,10 @@ namespace Salara
         public static ConfigEntry<bool> EnableDebugging { get; set; }
 
 
-        public static string characterName = "Salara";
+        public static string characterName = "Kaa";
         public static string heroName = characterName;
 
-        public static string subclassName = "Savant"; // needs caps
+        public static string subclassName = "Shadowscale"; // needs caps
 
         public static string subclassname = subclassName.ToLower();
         public static string itemStem = subclassname;
@@ -44,11 +44,11 @@ namespace Salara
             RegisterMod(
                 _name: PluginInfo.PLUGIN_NAME,
                 _author: "binbin",
-                _description: "Salara, the Savant.",
+                _description: "Kaa, the Shadowscale.",
                 _version: PluginInfo.PLUGIN_VERSION,
                 _date: ModDate,
-                _link: @"https://github.com/binbinmods/Salara",
-                _contentFolder: "Salara",
+                _link: @"https://github.com/binbinmods/Kaa",
+                _contentFolder: "Kaa",
                 _type: ["content", "hero", "trait"]
             );
             // apply patches            

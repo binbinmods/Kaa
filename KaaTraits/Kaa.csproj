@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
-	<RootNamespace>Salara</RootNamespace>
-	<Product>Salara</Product>
-    <AssemblyName>com.binbin.Salara</AssemblyName>
-    <Description>Salara, The Savant</Description>
+	<RootNamespace>Kaa</RootNamespace>
+	<Product>Kaa</Product>
+    <AssemblyName>com.binbin.Kaa</AssemblyName>
+    <Description>Kaa, The Shadowscale</Description>
     <Version>0.1.3</Version>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
@@ -45,7 +45,7 @@
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Copy SourceFiles="$(TargetPath)" DestinationFolder="../../../../plugins" />
-    <Copy SourceFiles="$(TargetPath)" DestinationFolder="../Salara/BepInEx/plugins" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="../Kaa/BepInEx/plugins" />
     <Exec Command="/usr/bin/python3 &quot;$(ProjectDir)../ship_mod.py&quot;" />
 
   </Target>

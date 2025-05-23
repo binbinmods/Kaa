@@ -33,7 +33,7 @@ def zip_mods():
 
 
 if __name__ == "__main__":  
-    mod_dir = "Salara"
+    mod_dir = "Kaa"
     # config_dir = f"{mod_dir}Configs"    
     content_destination_dir = mod_dir
     print(content_destination_dir)
