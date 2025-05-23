@@ -1,0 +1,15 @@
+{
+    "Card0": "shadowscaledistractingstrike",
+    "Card1": "deflect",
+    "Card2": "acrobaticstrike",
+    "Card3": "disengage",
+    "Card4": "provoke",
+    "Card5": "",
+    "CardSpecial0": "",
+    "CardSpecial1": "",
+    "PackClass": "scout",
+    "PackID": "kaa",
+    "PackName": "Kaa",
+    "PerkList": [],
+    "RequiredClass": "shadowscale"
+}
