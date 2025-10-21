@@ -1,8 +1,8 @@
 # Kaa, the Shadowscale
 
-A hero mod, introducing Kaa, a mage/healer who has been trapped in a mental cage. She goes on a journey to break out but has two very different ways of doing so overcoming the issues in a calm and focused way or forcefully breaking out of the cage through sheer will.
+A hero mod, introducing Kaa, a warrior/scout specialized in defense, evasion, and slashing damage..
 
-This character was designed by @ga7021.
+This character was designed by @trashecomps.
 
 This currently does not include any events or quests related to Kaa other than those available to all heroes or all heroes of a specific class.
 
