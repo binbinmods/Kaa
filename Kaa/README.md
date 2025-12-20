@@ -1,6 +1,6 @@
 # Kaa, the Shadowscale
 
-A hero mod, introducing Kaa, a warrior/scout specialized in defense, evasion, and slashing damage..
+A hero mod, introducing Kaa, a warrior/scout specialized in defense, evasion, and slashing damage.
 
 This character was designed by @trashecomps.
 
