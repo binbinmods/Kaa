@@ -1,0 +1,32 @@
+[config]
+schemaVersion = "0.2.1"
+
+[package]
+namespace = "Binbin"
+name = "Kaa_The_Shadowscale"
+versionNumber = "0.2.1"
+description = "New Hero Mod for Kaa, the Shadowscale. Warrior/Scout specialized in Evasion, Stealth, and Slashing"
+websiteUrl = "https://github.com/binbinmods/Kaa"
+containsNsfwContent = false
+
+[package.dependencies]
+meds-Obeliskial_Essentials = "1.5.1"
+meds-Obeliskial_Content = "1.7.2"
+
+
+[build]
+icon = "./icon.png"
+readme = "./README.md"
+outdir = "./build"
+
+[[build.copy]]
+source = "./Kaa"
+target = ""
+
+
+[publish]
+repository = "https://thunderstore.io"
+communities = [ "across-the-obelisk", ]
+[publish.categories]
+across-the-obelisk = [ "mods", ]
+

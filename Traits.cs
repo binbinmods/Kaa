@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+using HarmonyLib;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using UnityEngine;
 using static Kaa.CustomFunctions;
 using static Kaa.Plugin;
 using static Kaa.DescriptionFunctions;
-using static Kaa.KaaFunctions;
+// KaaFunctions class removed; move methods to CustomFunctions if needed
 using System.Text;
 using TMPro;
 using Obeliskial_Essentials;
